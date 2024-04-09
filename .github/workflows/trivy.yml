@@ -1,0 +1,28 @@
+name: trivy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  # NOTE: 最新のtrivyで警告が出ていないか定期的にチェックする
+  schedule:
+    - cron: '0 0 * * 1' # UTC 毎週月曜日0時
+
+jobs:
+  tfsec:
+    name: trivy
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      # NOTE: 最新バージョンのtrivyをインストール
+      - name: Install trivy
+        run: curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+
+      - name: security scan
+        run: trivy config ./
