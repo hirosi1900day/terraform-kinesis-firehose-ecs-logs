@@ -1,8 +1,8 @@
-variable "prefix" {
-  type        = string
-  default     = ""
-  description = "resource name prefixes for iam role, cloudwatch loggroup, etc."
-}
+# variable "prefix" {
+#   type        = string
+#   default     = ""
+#   description = "resource name prefixes for iam role, cloudwatch loggroup, etc."
+# }
 
 variable "glue_crawler_schedule" {
   type        = string

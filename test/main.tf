@@ -21,6 +21,6 @@ resource "aws_s3_bucket" "logs" {
 module "kinesis_firehose_ecs_logs" {
   source = "../"
 
-  prefix    = "stg-foo"
+#   prefix    = "stg-foo"
   s3_bucket = aws_s3_bucket.logs
 }
