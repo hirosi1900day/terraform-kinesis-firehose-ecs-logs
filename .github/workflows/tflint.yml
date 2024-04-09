@@ -1,0 +1,29 @@
+name: tflint
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  # NOTE: 最新のtflintで警告が出ていないか定期的にチェックする
+  schedule:
+    - cron: '0 0 * * 1' # UTC 毎週月曜日0時
+
+jobs:
+  tflint:
+    name: tflint
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      # NOTE: 最新バージョンのtflintをインストール
+      - uses: terraform-linters/setup-tflint@v4
+        name: Setup TFLint
+
+      # NOTE: モジュール側ではProviderやTerraformのバージョンは固定しないため一部ルールをdisableにしつつ実行
+      - name: Execute tflint
+        run: tflint --disable-rule terraform_required_providers --disable-rule terraform_required_version
