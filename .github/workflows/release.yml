@@ -1,0 +1,28 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'VERSION'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+
+    permissions:
+      contents: write
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Configure for Git
+      run: |
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git config --global user.name 'github-actions[bot]'
+    - name: Push a tag
+      run: |
+        VERSION=$(cat VERSION)
+        git tag $VERSION -m $VERSION
+        git push origin $VERSION
